@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package shiver.me.timbers.security;
+package shiver.me.timbers.security.token;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtParser;

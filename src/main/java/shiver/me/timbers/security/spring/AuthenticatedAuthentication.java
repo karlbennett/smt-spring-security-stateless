@@ -75,7 +75,6 @@ public class AuthenticatedAuthentication implements Authentication {
         return principal;
     }
 
-    @Override
     public boolean implies(Subject subject) {
         return false;
     }

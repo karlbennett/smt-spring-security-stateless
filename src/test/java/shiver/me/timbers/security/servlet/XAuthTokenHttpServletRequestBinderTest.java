@@ -18,7 +18,7 @@ package shiver.me.timbers.security.servlet;
 
 import org.junit.Before;
 import org.junit.Test;
-import shiver.me.timbers.security.TokenFactory;
+import shiver.me.timbers.security.token.TokenFactory;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

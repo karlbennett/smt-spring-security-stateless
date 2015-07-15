@@ -17,9 +17,9 @@
 package shiver.me.timbers.security.servlet;
 
 import org.springframework.security.core.Authentication;
-import shiver.me.timbers.security.TokenFactory;
 import shiver.me.timbers.security.spring.AuthenticatedAuthenticationFactory;
 import shiver.me.timbers.security.spring.AuthenticationFactory;
+import shiver.me.timbers.security.token.TokenFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

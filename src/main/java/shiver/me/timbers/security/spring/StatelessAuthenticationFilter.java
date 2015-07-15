@@ -18,10 +18,10 @@ package shiver.me.timbers.security.spring;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.filter.GenericFilterBean;
-import shiver.me.timbers.security.BasicJwtTokenFactory;
-import shiver.me.timbers.security.TokenFactory;
 import shiver.me.timbers.security.servlet.AuthenticationHttpServletRequestBinder;
 import shiver.me.timbers.security.servlet.HttpServletRequestBinder;
+import shiver.me.timbers.security.token.BasicJwtTokenFactory;
+import shiver.me.timbers.security.token.TokenFactory;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
