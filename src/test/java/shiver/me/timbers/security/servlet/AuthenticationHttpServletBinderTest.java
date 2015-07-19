@@ -33,18 +33,18 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
-public class AuthenticationHttpServletRequestBinderTest {
+public class AuthenticationHttpServletBinderTest {
 
-    private HttpServletRequestBinder<String> httpServletRequestBinder;
+    private HttpServletBinder<String> httpServletBinder;
     private AuthenticationFactory authenticationFactory;
-    private AuthenticationHttpServletRequestBinder binder;
+    private AuthenticationHttpServletBinder binder;
 
     @Before
     @SuppressWarnings("unchecked")
     public void setUp() {
-        httpServletRequestBinder = mock(HttpServletRequestBinder.class);
+        httpServletBinder = mock(HttpServletBinder.class);
         authenticationFactory = mock(AuthenticationFactory.class);
-        binder = new AuthenticationHttpServletRequestBinder(httpServletRequestBinder, authenticationFactory);
+        binder = new AuthenticationHttpServletBinder(httpServletBinder, authenticationFactory);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class AuthenticationHttpServletRequestBinderTest {
         binder.add(response, authentication);
 
         // Then
-        verify(httpServletRequestBinder).add(response, subject);
+        verify(httpServletBinder).add(response, subject);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class AuthenticationHttpServletRequestBinderTest {
         final Authentication expected = mock(Authentication.class);
 
         // Given
-        given(httpServletRequestBinder.retrieve(request)).willReturn(subject);
+        given(httpServletBinder.retrieve(request)).willReturn(subject);
         given(authenticationFactory.create(subject)).willReturn(expected);
 
         // When
@@ -90,7 +90,7 @@ public class AuthenticationHttpServletRequestBinderTest {
         final HttpServletRequest request = mock(HttpServletRequest.class);
 
         // Given
-        given(httpServletRequestBinder.retrieve(request)).willReturn(null);
+        given(httpServletBinder.retrieve(request)).willReturn(null);
 
         // When
         final Authentication actual = binder.retrieve(request);

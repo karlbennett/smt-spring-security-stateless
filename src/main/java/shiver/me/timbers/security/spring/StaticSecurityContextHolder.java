@@ -17,12 +17,10 @@
 package shiver.me.timbers.security.spring;
 
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.stereotype.Component;
 
 /**
  * @author Karl Bennett
  */
-@Component
 public class StaticSecurityContextHolder implements SecurityContextHolder {
 
     @Override

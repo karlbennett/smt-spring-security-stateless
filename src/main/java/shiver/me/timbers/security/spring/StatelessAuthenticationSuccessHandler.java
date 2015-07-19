@@ -19,8 +19,8 @@ package shiver.me.timbers.security.spring;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import shiver.me.timbers.security.servlet.AuthenticationHttpServletRequestBinder;
-import shiver.me.timbers.security.servlet.HttpServletRequestBinder;
+import shiver.me.timbers.security.servlet.AuthenticationHttpServletBinder;
+import shiver.me.timbers.security.servlet.HttpServletBinder;
 import shiver.me.timbers.security.token.BasicJwtTokenFactory;
 import shiver.me.timbers.security.token.TokenFactory;
 
@@ -34,22 +34,22 @@ import java.io.IOException;
  */
 public class StatelessAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final HttpServletRequestBinder<Authentication> authenticationFactory;
+    private final HttpServletBinder<Authentication> httpServletBinder;
     private final SimpleUrlAuthenticationSuccessHandler delegate;
 
-    public StatelessAuthenticationSuccessHandler(String secret) {
-        this(new BasicJwtTokenFactory(secret));
+    public StatelessAuthenticationSuccessHandler(String secret, String defaultTargetUri) {
+        this(new BasicJwtTokenFactory(secret), defaultTargetUri);
     }
 
-    public StatelessAuthenticationSuccessHandler(TokenFactory tokenFactory) {
-        this(new AuthenticationHttpServletRequestBinder(tokenFactory), new SimpleUrlAuthenticationSuccessHandler());
+    public StatelessAuthenticationSuccessHandler(TokenFactory tokenFactory, String defaultTargetUri) {
+        this(new AuthenticationHttpServletBinder(tokenFactory), new SimpleUrlAuthenticationSuccessHandler(defaultTargetUri));
     }
 
     public StatelessAuthenticationSuccessHandler(
-        HttpServletRequestBinder<Authentication> authenticationFactory,
+        HttpServletBinder<Authentication> httpServletBinder,
         SimpleUrlAuthenticationSuccessHandler delegate
     ) {
-        this.authenticationFactory = authenticationFactory;
+        this.httpServletBinder = httpServletBinder;
         this.delegate = delegate;
     }
 
@@ -57,7 +57,7 @@ public class StatelessAuthenticationSuccessHandler implements AuthenticationSucc
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
 
-        authenticationFactory.add(response, authentication);
+        httpServletBinder.add(response, authentication);
 
         delegate.onAuthenticationSuccess(request, response, authentication);
     }

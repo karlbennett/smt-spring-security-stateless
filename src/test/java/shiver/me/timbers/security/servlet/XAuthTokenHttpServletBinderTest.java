@@ -34,17 +34,17 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static shiver.me.timbers.data.random.RandomStrings.someAlphaString;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
-public class XAuthTokenHttpServletRequestBinderTest {
+public class XAuthTokenHttpServletBinderTest {
 
     private static final String X_AUTH_TOKEN = "X-AUTH-TOKEN";
 
     private TokenFactory tokenFactory;
-    private XAuthTokenHttpServletRequestBinder binder;
+    private XAuthTokenHttpServletBinder binder;
 
     @Before
     public void setUp() {
         tokenFactory = mock(TokenFactory.class);
-        binder = new XAuthTokenHttpServletRequestBinder(tokenFactory);
+        binder = new XAuthTokenHttpServletBinder(tokenFactory);
     }
 
     @Test

@@ -20,7 +20,7 @@ import org.junit.Test;
 import org.mockito.InOrder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import shiver.me.timbers.security.servlet.HttpServletRequestBinder;
+import shiver.me.timbers.security.servlet.HttpServletBinder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,20 +29,21 @@ import java.io.IOException;
 
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static shiver.me.timbers.data.random.RandomStrings.someAlphaString;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
 public class StatelessAuthenticationSuccessHandlerTest {
 
     @Test
     public void Can_create_a_stateless_authentication_success_handler_with_just_a_secret() {
-        new StatelessAuthenticationSuccessHandler(someString());
+        new StatelessAuthenticationSuccessHandler(someString(), "/" + someAlphaString());
     }
 
     @Test
     public void Can_add_successful_authentication_to_the_response() throws IOException, ServletException {
 
         @SuppressWarnings("unchecked")
-        final HttpServletRequestBinder<Authentication> authenticationFactory = mock(HttpServletRequestBinder.class);
+        final HttpServletBinder<Authentication> authenticationFactory = mock(HttpServletBinder.class);
         final SimpleUrlAuthenticationSuccessHandler delegate = mock(SimpleUrlAuthenticationSuccessHandler.class);
 
         final HttpServletRequest request = mock(HttpServletRequest.class);

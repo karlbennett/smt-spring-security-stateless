@@ -18,8 +18,8 @@ package shiver.me.timbers.security.spring;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.filter.GenericFilterBean;
-import shiver.me.timbers.security.servlet.AuthenticationHttpServletRequestBinder;
-import shiver.me.timbers.security.servlet.HttpServletRequestBinder;
+import shiver.me.timbers.security.servlet.AuthenticationHttpServletBinder;
+import shiver.me.timbers.security.servlet.HttpServletBinder;
 import shiver.me.timbers.security.token.BasicJwtTokenFactory;
 import shiver.me.timbers.security.token.TokenFactory;
 
@@ -35,7 +35,7 @@ import java.io.IOException;
  */
 public class StatelessAuthenticationFilter extends GenericFilterBean {
 
-    private final HttpServletRequestBinder<Authentication> authenticationFactory;
+    private final HttpServletBinder<Authentication> httpServletBinder;
     private final SecurityContextHolder contextHolder;
 
     public StatelessAuthenticationFilter(String secret) {
@@ -43,21 +43,22 @@ public class StatelessAuthenticationFilter extends GenericFilterBean {
     }
 
     public StatelessAuthenticationFilter(TokenFactory tokenFactory) {
-        this(new AuthenticationHttpServletRequestBinder(tokenFactory), new StaticSecurityContextHolder());
+        this(new AuthenticationHttpServletBinder(tokenFactory), new StaticSecurityContextHolder());
     }
 
     public StatelessAuthenticationFilter(
-        HttpServletRequestBinder<Authentication> authenticationFactory,
+        HttpServletBinder<Authentication> httpServletBinder,
         SecurityContextHolder contextHolder
     ) {
-        this.authenticationFactory = authenticationFactory;
+        this.httpServletBinder = httpServletBinder;
         this.contextHolder = contextHolder;
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
         throws IOException, ServletException {
-        contextHolder.getContext().setAuthentication(authenticationFactory.retrieve((HttpServletRequest) request));
+        final Authentication authentication = httpServletBinder.retrieve((HttpServletRequest) request);
+        contextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
     }
 }

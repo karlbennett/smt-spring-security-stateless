@@ -27,39 +27,39 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author Karl Bennett
  */
-public class AuthenticationHttpServletRequestBinder implements HttpServletRequestBinder<Authentication> {
+public class AuthenticationHttpServletBinder implements HttpServletBinder<Authentication> {
 
-    private final HttpServletRequestBinder<String> httpServletRequestBinder;
+    private final HttpServletBinder<String> httpServletBinder;
     private final AuthenticationFactory authenticationFactory;
 
-    public AuthenticationHttpServletRequestBinder(TokenFactory tokenFactory) {
+    public AuthenticationHttpServletBinder(TokenFactory tokenFactory) {
         this(tokenFactory, new AuthenticatedAuthenticationFactory());
     }
 
-    public AuthenticationHttpServletRequestBinder(
+    public AuthenticationHttpServletBinder(
         TokenFactory tokenFactory,
         AuthenticationFactory authenticationFactory
     ) {
-        this(new XAuthTokenHttpServletRequestBinder(tokenFactory), authenticationFactory);
+        this(new XAuthTokenHttpServletBinder(tokenFactory), authenticationFactory);
     }
 
-    public AuthenticationHttpServletRequestBinder(
-        HttpServletRequestBinder<String> httpServletRequestBinder,
+    public AuthenticationHttpServletBinder(
+        HttpServletBinder<String> httpServletBinder,
         AuthenticationFactory authenticationFactory
     ) {
-        this.httpServletRequestBinder = httpServletRequestBinder;
+        this.httpServletBinder = httpServletBinder;
         this.authenticationFactory = authenticationFactory;
     }
 
     @Override
     public void add(HttpServletResponse response, Authentication authentication) {
-        httpServletRequestBinder.add(response, authentication.getName());
+        httpServletBinder.add(response, authentication.getName());
     }
 
     @Override
     public Authentication retrieve(HttpServletRequest request) {
 
-        final String username = httpServletRequestBinder.retrieve(request);
+        final String username = httpServletBinder.retrieve(request);
 
         if (username != null) {
             return authenticationFactory.create(username);

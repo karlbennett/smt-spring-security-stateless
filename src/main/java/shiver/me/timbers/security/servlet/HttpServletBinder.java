@@ -22,9 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author Karl Bennett
  */
-public interface HttpServletRequestBinder<T> {
+public interface HttpServletBinder<T> {
 
-    T retrieve(HttpServletRequest input);
+    T retrieve(HttpServletRequest request);
 
     void add(HttpServletResponse response, T value);
 }

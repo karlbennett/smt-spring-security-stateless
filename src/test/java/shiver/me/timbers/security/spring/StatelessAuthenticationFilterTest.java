@@ -20,7 +20,7 @@ import org.junit.Test;
 import org.mockito.InOrder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
-import shiver.me.timbers.security.servlet.HttpServletRequestBinder;
+import shiver.me.timbers.security.servlet.HttpServletBinder;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -45,7 +45,7 @@ public class StatelessAuthenticationFilterTest {
     public void Can_authenticate_request() throws IOException, ServletException {
 
         @SuppressWarnings("unchecked")
-        final HttpServletRequestBinder<Authentication> authenticationFactory = mock(HttpServletRequestBinder.class);
+        final HttpServletBinder<Authentication> authenticationFactory = mock(HttpServletBinder.class);
         final SecurityContextHolder contextHolder = mock(SecurityContextHolder.class);
 
         final HttpServletRequest request = mock(HttpServletRequest.class);
