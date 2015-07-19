@@ -43,7 +43,15 @@ public class StatelessAuthenticationFilter extends GenericFilterBean {
     }
 
     public StatelessAuthenticationFilter(TokenFactory tokenFactory) {
-        this(new AuthenticationHttpServletBinder(tokenFactory), new StaticSecurityContextHolder());
+        this(tokenFactory, new AuthenticatedAuthenticationFactory());
+    }
+
+    public StatelessAuthenticationFilter(TokenFactory tokenFactory, AuthenticationFactory authenticationFactory) {
+        this(new AuthenticationHttpServletBinder(tokenFactory, authenticationFactory));
+    }
+
+    public StatelessAuthenticationFilter(HttpServletBinder<Authentication> httpServletBinder) {
+        this(httpServletBinder, new StaticSecurityContextHolder());
     }
 
     public StatelessAuthenticationFilter(
@@ -57,8 +65,7 @@ public class StatelessAuthenticationFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
         throws IOException, ServletException {
-        final Authentication authentication = httpServletBinder.retrieve((HttpServletRequest) request);
-        contextHolder.getContext().setAuthentication(authentication);
+        contextHolder.getContext().setAuthentication(httpServletBinder.retrieve((HttpServletRequest) request));
         filterChain.doFilter(request, response);
     }
 }

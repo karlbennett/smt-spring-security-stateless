@@ -52,28 +52,28 @@ public class BasicJwtTokenFactoryTest {
     }
 
     @Test
-    public void Can_create_a_token_from_an_authentication() {
+    public void Can_create_a_token_from_a_subject() {
 
-        final String username = someString();
+        final String subject = someString();
         final JwtBuilder signWithJwtBuilder = mock(JwtBuilder.class);
         final JwtBuilder compactJwtBuilder = mock(JwtBuilder.class);
 
         final String expected = someString();
 
         // Given
-        given(jwtBuilder.setSubject(username)).willReturn(signWithJwtBuilder);
+        given(jwtBuilder.setSubject(subject)).willReturn(signWithJwtBuilder);
         given(signWithJwtBuilder.signWith(HS512, secret)).willReturn(compactJwtBuilder);
         given(compactJwtBuilder.compact()).willReturn(expected);
 
         // When
-        final String actual = factory.create(username);
+        final String actual = factory.create(subject);
 
         // Then
         assertThat(actual, equalTo(expected));
     }
 
     @Test
-    public void Can_create_an_authentication_from_a_token() {
+    public void Can_parse_a_subject_from_a_token() {
 
         final String token = someString();
 
