@@ -15,14 +15,6 @@ limitations under the License.
 -->
 smt-spring-security-stateless
 ===========
+[![Build Status](https://travis-ci.org/shiver-me-timbers/smt-spring-security-stateless.svg?branch=master)](https://travis-ci.org/shiver-me-timbers/smt-spring-security-stateless) [![Coverage Status](https://coveralls.io/repos/shiver-me-timbers/smt-spring-security-stateless/badge.svg?branch=master&service=github)](https://coveralls.io/github/shiver-me-timbers/smt-spring-security-stateless?branch=master) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.shiver-me-timbers/smt-spring-security-stateless/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.shiver-me-timbers/smt-spring-security-stateless/)
 
 This library contains classes for configuring Spring Security to be stateless.
-
-### Maven
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.shiver-me-timbers/smt-spring-security-stateless/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.shiver-me-timbers/smt-spring-security-stateless/)
-
-### Status
-[![Build Status](https://travis-ci.org/shiver-me-timbers/smt-spring-security-stateless.svg?branch=master)](https://travis-ci.org/shiver-me-timbers/smt-spring-security-stateless)
-
-### Coverage
-[![Coverage Status](https://coveralls.io/repos/shiver-me-timbers/smt-spring-security-stateless/badge.svg?branch=master&service=github)](https://coveralls.io/github/shiver-me-timbers/smt-spring-security-stateless?branch=master)
