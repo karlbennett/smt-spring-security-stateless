@@ -19,9 +19,14 @@ package shiver.me.timbers.security.spring;
 import org.springframework.security.core.context.SecurityContext;
 
 /**
+ * This holder can be implemented to customise the way the Spring Security Context is accessed.
+ *
  * @author Karl Bennett
  */
 public interface SecurityContextHolder {
 
+    /**
+     * @return the current Spring Security context.
+     */
     SecurityContext getContext();
 }

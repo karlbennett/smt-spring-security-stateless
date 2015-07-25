@@ -31,6 +31,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
+ * This filter will check every request for the authorised token and if it finds it authorise the request.
+ *
  * @author Karl Bennett
  */
 public class StatelessAuthenticationFilter extends GenericFilterBean {

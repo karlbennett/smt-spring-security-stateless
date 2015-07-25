@@ -20,11 +20,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * This binder will retrieve given value from a request or add it a response.
+ *
  * @author Karl Bennett
  */
 public interface HttpServletBinder<T> {
 
+    /**
+     * @return the value that this binder is responsible for from the supplied request.
+     */
     T retrieve(HttpServletRequest request);
 
+    /**
+     * Add the supplied value to the supplied response.
+     */
     void add(HttpServletResponse response, T value);
 }

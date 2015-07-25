@@ -30,6 +30,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * After a successful sign in this handler will add an authorised token to the response that can then be used to
+ * authorise subsequent requests.
+ *
  * @author Karl Bennett
  */
 public class StatelessAuthenticationSuccessHandler implements AuthenticationSuccessHandler {

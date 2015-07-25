@@ -23,5 +23,8 @@ import org.springframework.security.core.Authentication;
  */
 public interface AuthenticationFactory {
 
+    /**
+     * @return an authentication that has been created from the supplied subject.
+     */
     Authentication create(String subject);
 }

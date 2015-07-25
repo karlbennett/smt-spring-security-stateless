@@ -21,7 +21,13 @@ package shiver.me.timbers.security.token;
  */
 public interface TokenFactory {
 
+    /**
+     * @return an authorised token generated from the supplied subject. Commonly the related accounts username.
+     */
     String create(String subject);
 
+    /**
+     * @return the subject that was used to generate this token. Commonly the related accounts username.
+     */
     String parse(String token);
 }

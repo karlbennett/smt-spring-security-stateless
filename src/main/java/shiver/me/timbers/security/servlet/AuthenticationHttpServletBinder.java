@@ -59,10 +59,10 @@ public class AuthenticationHttpServletBinder implements HttpServletBinder<Authen
     @Override
     public Authentication retrieve(HttpServletRequest request) {
 
-        final String username = httpServletBinder.retrieve(request);
+        final String subject = httpServletBinder.retrieve(request);
 
-        if (username != null) {
-            return authenticationFactory.create(username);
+        if (subject != null) {
+            return authenticationFactory.create(subject);
         }
 
         return null;
