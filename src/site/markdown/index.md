@@ -31,7 +31,9 @@ This handler can be added to Spring Security with the
 fluent API.
 
 ```java
-http.formLogin().successHandler(new StatelessAuthenticationSuccessHandler("some secret", "/app/root"));
+http.formLogin().successHandler(
+    new StatelessAuthenticationSuccessHandler("some secret", "/app/root")
+);
 ```
 
 This class can be further configured to through it's constructors, one common customisation would be to add a more
@@ -39,7 +41,9 @@ secure [`TokenFactory`](src/main/java/shiver/me/timbers/security/token/TokenFact
 have any expiration date.
 
 ```java
-http.formLogin().successHandler(new StatelessAuthenticationSuccessHandler(new ExpringTokenFactory(), "/app/root"));
+http.formLogin().successHandler(
+    new StatelessAuthenticationSuccessHandler(new ExpringTokenFactory(), "/app/root")
+);
 ```
 
 #### [StatelessAuthenticationFilter](src/main/java/shiver/me/timbers/security/spring/StatelessAuthenticationFilter.java)
@@ -52,14 +56,20 @@ internal [`UsernamePasswordAuthenticationFilter`](http://docs.spring.io/spring-s
 so that it will authorise the request before a sign in is required.
 
 ```java
-http.addFilterBefore(new StatelessAuthenticationFilter("some secret"), UsernamePasswordAuthenticationFilter.class);
+http.addFilterBefore(
+    new StatelessAuthenticationFilter("some secret"),
+    UsernamePasswordAuthenticationFilter.class
+);
 ```
 
 Further customisation can also be done using it's constructors. Again, supplying a better `TokenFactory` would be a good
 example.
 
 ```java
-http.addFilterBefore(new StatelessAuthenticationFilter(new ExpringTokenFactory()), UsernamePasswordAuthenticationFilter.class);
+http.addFilterBefore(
+    new StatelessAuthenticationFilter(new ExpringTokenFactory()),
+    UsernamePasswordAuthenticationFilter.class
+);
 ```
 
 #### Default Behaviour
