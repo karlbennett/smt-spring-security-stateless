@@ -1,0 +1,9 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+smt-spring-security-stateless,shiver.me.timbers.security.token,BasicJwtTokenFactory,0,39,0,0,0,9,0,4,0,4
+smt-spring-security-stateless,shiver.me.timbers.security.servlet,XAuthTokenHttpServletBinder,0,74,0,10,0,20,0,9,0,4
+smt-spring-security-stateless,shiver.me.timbers.security.servlet,AuthenticationHttpServletBinder,0,46,0,2,0,14,0,6,0,5
+smt-spring-security-stateless,shiver.me.timbers.security.spring,AuthenticatedAuthentication,0,30,0,0,0,13,0,9,0,9
+smt-spring-security-stateless,shiver.me.timbers.security.spring,StatelessAuthenticationSuccessHandler,0,40,0,0,0,11,0,4,0,4
+smt-spring-security-stateless,shiver.me.timbers.security.spring,StatelessAuthenticationFilter,0,53,0,0,0,15,0,6,0,6
+smt-spring-security-stateless,shiver.me.timbers.security.spring,AuthenticatedAuthenticationFactory,0,8,0,0,0,2,0,2,0,2
+smt-spring-security-stateless,shiver.me.timbers.security.spring,StaticSecurityContextHolder,0,5,0,0,0,2,0,2,0,2
