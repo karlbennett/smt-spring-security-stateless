@@ -21,6 +21,18 @@ This library contains two customisable classes that help with configuring Spring
 does not provide any help with the initial sign in, it will just take over after the sign in has succeed and for all
 subsequent authentication checks after that.
 
+### Maven
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>com.github.shiver-me-timbers</groupId>
+        <artifactId>smt-spring-security-stateless</artifactId>
+        <version>1.2</version>
+    </dependency>
+</dependencies>
+```
+
 ### Usage
 
 #### [StatelessAuthenticationSuccessHandler](src/main/java/shiver/me/timbers/security/spring/StatelessAuthenticationSuccessHandler.java)
