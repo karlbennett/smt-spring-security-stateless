@@ -45,7 +45,7 @@ public class StatelessAuthenticationFilterTest {
     public void Can_authenticate_request() throws IOException, ServletException {
 
         @SuppressWarnings("unchecked")
-        final HttpServletBinder<Authentication> authenticationFactory = mock(HttpServletBinder.class);
+        final HttpServletBinder<Authentication> httpServletBinder = mock(HttpServletBinder.class);
         final SecurityContextHolder contextHolder = mock(SecurityContextHolder.class);
 
         final HttpServletRequest request = mock(HttpServletRequest.class);
@@ -56,11 +56,11 @@ public class StatelessAuthenticationFilterTest {
         final SecurityContext securityContext = mock(SecurityContext.class);
 
         // Given
-        given(authenticationFactory.retrieve(request)).willReturn(authentication);
+        given(httpServletBinder.retrieve(request)).willReturn(authentication);
         given(contextHolder.getContext()).willReturn(securityContext);
 
         // When
-        new StatelessAuthenticationFilter(authenticationFactory, contextHolder).doFilter(request, response, filterChain);
+        new StatelessAuthenticationFilter(httpServletBinder, contextHolder).doFilter(request, response, filterChain);
 
         // Then
         final InOrder order = inOrder(securityContext, filterChain);

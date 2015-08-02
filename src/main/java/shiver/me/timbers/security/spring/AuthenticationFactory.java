@@ -21,10 +21,10 @@ import org.springframework.security.core.Authentication;
 /**
  * @author Karl Bennett
  */
-public interface AuthenticationFactory {
+public interface AuthenticationFactory<T> {
 
     /**
      * @return an authentication that has been created from the supplied subject.
      */
-    Authentication create(String subject);
+    Authentication create(T subject);
 }

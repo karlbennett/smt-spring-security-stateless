@@ -21,7 +21,7 @@ import org.springframework.security.core.Authentication;
 /**
  * @author Karl Bennett
  */
-public class AuthenticatedAuthenticationFactory implements AuthenticationFactory {
+public class AuthenticatedAuthenticationFactory implements AuthenticationFactory<String> {
 
     @Override
     public Authentication create(String subject) {

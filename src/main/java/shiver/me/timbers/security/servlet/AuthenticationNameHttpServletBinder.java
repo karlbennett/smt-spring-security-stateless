@@ -27,25 +27,25 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author Karl Bennett
  */
-public class AuthenticationHttpServletBinder implements HttpServletBinder<Authentication> {
+public class AuthenticationNameHttpServletBinder implements HttpServletBinder<Authentication> {
 
     private final HttpServletBinder<String> httpServletBinder;
-    private final AuthenticationFactory authenticationFactory;
+    private final AuthenticationFactory<String> authenticationFactory;
 
-    public AuthenticationHttpServletBinder(TokenFactory tokenFactory) {
+    public AuthenticationNameHttpServletBinder(TokenFactory<String> tokenFactory) {
         this(tokenFactory, new AuthenticatedAuthenticationFactory());
     }
 
-    public AuthenticationHttpServletBinder(
-        TokenFactory tokenFactory,
-        AuthenticationFactory authenticationFactory
+    public AuthenticationNameHttpServletBinder(
+        TokenFactory<String> tokenFactory,
+        AuthenticationFactory<String> authenticationFactory
     ) {
-        this(new XAuthTokenHttpServletBinder(tokenFactory), authenticationFactory);
+        this(new XAuthTokenHttpServletBinder<>(tokenFactory), authenticationFactory);
     }
 
-    public AuthenticationHttpServletBinder(
+    public AuthenticationNameHttpServletBinder(
         HttpServletBinder<String> httpServletBinder,
-        AuthenticationFactory authenticationFactory
+        AuthenticationFactory<String> authenticationFactory
     ) {
         this.httpServletBinder = httpServletBinder;
         this.authenticationFactory = authenticationFactory;

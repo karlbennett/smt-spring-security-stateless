@@ -19,7 +19,7 @@ package shiver.me.timbers.security.spring;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import shiver.me.timbers.security.servlet.AuthenticationHttpServletBinder;
+import shiver.me.timbers.security.servlet.AuthenticationNameHttpServletBinder;
 import shiver.me.timbers.security.servlet.HttpServletBinder;
 import shiver.me.timbers.security.token.BasicJwtTokenFactory;
 import shiver.me.timbers.security.token.TokenFactory;
@@ -44,8 +44,8 @@ public class StatelessAuthenticationSuccessHandler implements AuthenticationSucc
         this(new BasicJwtTokenFactory(secret), defaultTargetUri);
     }
 
-    public StatelessAuthenticationSuccessHandler(TokenFactory tokenFactory, String defaultTargetUri) {
-        this(new AuthenticationHttpServletBinder(tokenFactory), new SimpleUrlAuthenticationSuccessHandler(defaultTargetUri));
+    public StatelessAuthenticationSuccessHandler(TokenFactory<String> tokenFactory, String defaultTargetUri) {
+        this(new AuthenticationNameHttpServletBinder(tokenFactory), new SimpleUrlAuthenticationSuccessHandler(defaultTargetUri));
     }
 
     public StatelessAuthenticationSuccessHandler(

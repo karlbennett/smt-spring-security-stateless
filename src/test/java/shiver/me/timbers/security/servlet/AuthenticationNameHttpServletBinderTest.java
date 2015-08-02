@@ -33,18 +33,18 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
-public class AuthenticationHttpServletBinderTest {
+public class AuthenticationNameHttpServletBinderTest {
 
     private HttpServletBinder<String> httpServletBinder;
-    private AuthenticationFactory authenticationFactory;
-    private AuthenticationHttpServletBinder binder;
+    private AuthenticationFactory<String> authenticationFactory;
+    private AuthenticationNameHttpServletBinder binder;
 
     @Before
     @SuppressWarnings("unchecked")
     public void setUp() {
         httpServletBinder = mock(HttpServletBinder.class);
         authenticationFactory = mock(AuthenticationFactory.class);
-        binder = new AuthenticationHttpServletBinder(httpServletBinder, authenticationFactory);
+        binder = new AuthenticationNameHttpServletBinder(httpServletBinder, authenticationFactory);
     }
 
     @Test

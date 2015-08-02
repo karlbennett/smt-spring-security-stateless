@@ -38,13 +38,14 @@ public class XAuthTokenHttpServletBinderTest {
 
     private static final String X_AUTH_TOKEN = "X-AUTH-TOKEN";
 
-    private TokenFactory tokenFactory;
-    private XAuthTokenHttpServletBinder binder;
+    private TokenFactory<Object> tokenFactory;
+    private XAuthTokenHttpServletBinder<Object> binder;
 
     @Before
+    @SuppressWarnings("unchecked")
     public void setUp() {
         tokenFactory = mock(TokenFactory.class);
-        binder = new XAuthTokenHttpServletBinder(tokenFactory);
+        binder = new XAuthTokenHttpServletBinder<>(tokenFactory);
     }
 
     @Test
@@ -52,7 +53,7 @@ public class XAuthTokenHttpServletBinderTest {
 
         final HttpServletResponse response = mock(HttpServletResponse.class);
 
-        final String subject = someString();
+        final Object subject = new Object();
         final String token = someString();
 
         // Given
@@ -72,7 +73,7 @@ public class XAuthTokenHttpServletBinderTest {
         final HttpServletRequest request = mock(HttpServletRequest.class);
 
         final String token = someString();
-        final String expected = someString();
+        final Object expected = new Object();
 
         // Given
         given(request.getHeader(X_AUTH_TOKEN)).willReturn(token);
@@ -80,7 +81,7 @@ public class XAuthTokenHttpServletBinderTest {
         given(tokenFactory.parse(token)).willReturn(expected);
 
         // When
-        final String actual = binder.retrieve(request);
+        final Object actual = binder.retrieve(request);
 
         // Then
         assertThat(actual, equalTo(expected));
@@ -92,7 +93,7 @@ public class XAuthTokenHttpServletBinderTest {
         final HttpServletRequest request = mock(HttpServletRequest.class);
 
         final String token = someString();
-        final String expected = someString();
+        final Object expected = new Object();
 
         // Given
         given(request.getHeader(X_AUTH_TOKEN)).willReturn(null);
@@ -103,7 +104,7 @@ public class XAuthTokenHttpServletBinderTest {
         given(tokenFactory.parse(token)).willReturn(expected);
 
         // When
-        final String actual = binder.retrieve(request);
+        final Object actual = binder.retrieve(request);
 
         // Then
         assertThat(actual, equalTo(expected));
@@ -119,7 +120,7 @@ public class XAuthTokenHttpServletBinderTest {
         given(request.getCookies()).willReturn(null);
 
         // When
-        final String actual = binder.retrieve(request);
+        final Object actual = binder.retrieve(request);
 
         // Then
         assertThat(actual, nullValue());
@@ -136,7 +137,7 @@ public class XAuthTokenHttpServletBinderTest {
         given(request.getCookies()).willReturn(new Cookie[0]);
 
         // When
-        final String actual = binder.retrieve(request);
+        final Object actual = binder.retrieve(request);
 
         // Then
         assertThat(actual, nullValue());

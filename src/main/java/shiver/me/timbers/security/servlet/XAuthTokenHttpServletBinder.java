@@ -25,17 +25,17 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author Karl Bennett
  */
-public class XAuthTokenHttpServletBinder implements HttpServletBinder<String> {
+public class XAuthTokenHttpServletBinder<T> implements HttpServletBinder<T> {
 
     private static final String X_AUTH_TOKEN = "X-AUTH-TOKEN";
-    private final TokenFactory tokenFactory;
+    private final TokenFactory<T> tokenFactory;
 
-    public XAuthTokenHttpServletBinder(TokenFactory tokenFactory) {
+    public XAuthTokenHttpServletBinder(TokenFactory<T> tokenFactory) {
         this.tokenFactory = tokenFactory;
     }
 
     @Override
-    public void add(HttpServletResponse response, String subject) {
+    public void add(HttpServletResponse response, T subject) {
 
         final String token = tokenFactory.create(subject);
 
@@ -44,7 +44,7 @@ public class XAuthTokenHttpServletBinder implements HttpServletBinder<String> {
     }
 
     @Override
-    public String retrieve(HttpServletRequest request) {
+    public T retrieve(HttpServletRequest request) {
 
         final String cookieToken = findToken(request);
 

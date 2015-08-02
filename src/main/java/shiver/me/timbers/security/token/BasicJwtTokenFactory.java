@@ -28,7 +28,7 @@ import static io.jsonwebtoken.SignatureAlgorithm.HS512;
  *
  * @author Karl Bennett
  */
-public class BasicJwtTokenFactory implements TokenFactory {
+public class BasicJwtTokenFactory implements TokenFactory<String> {
 
     private final String secret;
     private final JwtBuilder jwtBuilder;
