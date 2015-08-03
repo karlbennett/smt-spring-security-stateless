@@ -72,11 +72,16 @@
             <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Library that is used to build the JWT tokens. -->
+        <!-- Libraries that are used to build the JWT tokens. -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.msgpack</groupId>
+            <artifactId>msgpack</artifactId>
+            <version>0.6.12</version>
         </dependency>
 
         <dependency>

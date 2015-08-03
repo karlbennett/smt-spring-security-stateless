@@ -20,7 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.filter.GenericFilterBean;
 import shiver.me.timbers.security.servlet.AuthenticationNameHttpServletBinder;
 import shiver.me.timbers.security.servlet.HttpServletBinder;
-import shiver.me.timbers.security.token.BasicJwtTokenFactory;
+import shiver.me.timbers.security.token.JwtTokenFactory;
 import shiver.me.timbers.security.token.TokenFactory;
 
 import javax.servlet.FilterChain;
@@ -41,7 +41,7 @@ public class StatelessAuthenticationFilter extends GenericFilterBean {
     private final SecurityContextHolder contextHolder;
 
     public StatelessAuthenticationFilter(String secret) {
-        this(new BasicJwtTokenFactory(secret));
+        this(new JwtTokenFactory<>(String.class, secret));
     }
 
     public StatelessAuthenticationFilter(TokenFactory<String> tokenFactory) {

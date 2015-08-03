@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import shiver.me.timbers.security.servlet.AuthenticationNameHttpServletBinder;
 import shiver.me.timbers.security.servlet.HttpServletBinder;
-import shiver.me.timbers.security.token.BasicJwtTokenFactory;
+import shiver.me.timbers.security.token.JwtTokenFactory;
 import shiver.me.timbers.security.token.TokenFactory;
 
 import javax.servlet.ServletException;
@@ -41,7 +41,7 @@ public class StatelessAuthenticationSuccessHandler implements AuthenticationSucc
     private final SimpleUrlAuthenticationSuccessHandler delegate;
 
     public StatelessAuthenticationSuccessHandler(String secret, String defaultTargetUri) {
-        this(new BasicJwtTokenFactory(secret), defaultTargetUri);
+        this(new JwtTokenFactory<>(String.class, secret), defaultTargetUri);
     }
 
     public StatelessAuthenticationSuccessHandler(TokenFactory<String> tokenFactory, String defaultTargetUri) {
