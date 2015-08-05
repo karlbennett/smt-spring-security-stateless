@@ -21,10 +21,17 @@ import org.springframework.security.core.Authentication;
 /**
  * @author Karl Bennett
  */
-public interface AuthenticationFactory<T> {
+public abstract class AbstractNullSafeAuthenticationConverter<T> implements AuthenticationConverter<T> {
 
-    /**
-     * @return an authentication that has been created from the supplied subject.
-     */
-    Authentication create(T subject);
+    @Override
+    public Authentication convert(T principal) {
+
+        if (principal != null) {
+            return nullSafeConvert(principal);
+        }
+
+        return null;
+    }
+
+    protected abstract Authentication nullSafeConvert(T principal);
 }

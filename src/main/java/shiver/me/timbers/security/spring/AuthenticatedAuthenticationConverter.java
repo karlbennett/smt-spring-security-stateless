@@ -16,26 +16,20 @@
 
 package shiver.me.timbers.security.spring;
 
-import org.junit.Test;
 import org.springframework.security.core.Authentication;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
-import static shiver.me.timbers.data.random.RandomStrings.someString;
+/**
+ * @author Karl Bennett
+ */
+public class AuthenticatedAuthenticationConverter extends AbstractNullSafeAuthenticationConverter<String> {
 
-public class AuthenticatedAuthenticationFactoryTest {
+    @Override
+    public String convert(Authentication authentication) {
+        return authentication.getName();
+    }
 
-    @Test
-    public void Can_create_an_authenticated_authetication() {
-
-        // Given
-        final String subject = someString();
-
-        // When
-        final Authentication actual = new AuthenticatedAuthenticationFactory().create(subject);
-
-        // Then
-        assertThat(actual.getPrincipal().toString(), equalTo(subject));
-        assertThat(actual.isAuthenticated(), equalTo(true));
+    @Override
+    protected Authentication nullSafeConvert(String principal) {
+        return new AuthenticatedAuthentication(principal);
     }
 }

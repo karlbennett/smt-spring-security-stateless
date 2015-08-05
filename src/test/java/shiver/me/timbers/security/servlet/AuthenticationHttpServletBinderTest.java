@@ -19,32 +19,30 @@ package shiver.me.timbers.security.servlet;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.core.Authentication;
-import shiver.me.timbers.security.spring.AuthenticationFactory;
+import shiver.me.timbers.security.spring.AuthenticationConverter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
-public class AuthenticationNameHttpServletBinderTest {
+public class AuthenticationHttpServletBinderTest {
 
-    private HttpServletBinder<String> httpServletBinder;
-    private AuthenticationFactory<String> authenticationFactory;
-    private AuthenticationNameHttpServletBinder binder;
+    private HttpServletBinder<Object> httpServletBinder;
+    private AuthenticationConverter<Object> authenticationConverter;
+    private AuthenticationHttpServletBinder binder;
 
     @Before
     @SuppressWarnings("unchecked")
     public void setUp() {
         httpServletBinder = mock(HttpServletBinder.class);
-        authenticationFactory = mock(AuthenticationFactory.class);
-        binder = new AuthenticationNameHttpServletBinder(httpServletBinder, authenticationFactory);
+        authenticationConverter = mock(AuthenticationConverter.class);
+        binder = new AuthenticationHttpServletBinder(httpServletBinder, authenticationConverter);
     }
 
     @Test
@@ -53,10 +51,10 @@ public class AuthenticationNameHttpServletBinderTest {
         final Authentication authentication = mock(Authentication.class);
         final HttpServletResponse response = mock(HttpServletResponse.class);
 
-        final String subject = someString();
+        final Object subject = new Object();
 
         // Given
-        given(authentication.getName()).willReturn(subject);
+        given(authenticationConverter.convert(authentication)).willReturn(subject);
 
         // When
         binder.add(response, authentication);
@@ -75,28 +73,12 @@ public class AuthenticationNameHttpServletBinderTest {
 
         // Given
         given(httpServletBinder.retrieve(request)).willReturn(subject);
-        given(authenticationFactory.create(subject)).willReturn(expected);
+        given(authenticationConverter.convert(subject)).willReturn(expected);
 
         // When
         final Authentication actual = binder.retrieve(request);
 
         // Then
         assertThat(actual, equalTo(expected));
-    }
-
-    @Test
-    public void Return_no_authentication_if_no_subject_found() {
-
-        final HttpServletRequest request = mock(HttpServletRequest.class);
-
-        // Given
-        given(httpServletBinder.retrieve(request)).willReturn(null);
-
-        // When
-        final Authentication actual = binder.retrieve(request);
-
-        // Then
-        assertThat(actual, nullValue());
-        verifyZeroInteractions(authenticationFactory);
     }
 }

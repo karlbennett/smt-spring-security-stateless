@@ -18,7 +18,7 @@ package shiver.me.timbers.security.spring;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.filter.GenericFilterBean;
-import shiver.me.timbers.security.servlet.AuthenticationNameHttpServletBinder;
+import shiver.me.timbers.security.servlet.AuthenticationHttpServletBinder;
 import shiver.me.timbers.security.servlet.HttpServletBinder;
 import shiver.me.timbers.security.token.JwtTokenFactory;
 import shiver.me.timbers.security.token.TokenFactory;
@@ -41,15 +41,25 @@ public class StatelessAuthenticationFilter extends GenericFilterBean {
     private final SecurityContextHolder contextHolder;
 
     public StatelessAuthenticationFilter(String secret) {
-        this(new JwtTokenFactory<>(String.class, secret));
+        this(String.class, secret, new AuthenticatedAuthenticationConverter());
     }
 
-    public StatelessAuthenticationFilter(TokenFactory<String> tokenFactory) {
-        this(tokenFactory, new AuthenticatedAuthenticationFactory());
+    public <T> StatelessAuthenticationFilter(
+        Class<T> type,
+        String secret,
+        AuthenticationConverter<T> authenticationConverter
+    ) {
+        this(new JwtTokenFactory<>(type, secret), authenticationConverter);
     }
 
-    public StatelessAuthenticationFilter(TokenFactory<String> tokenFactory, AuthenticationFactory<String> authenticationFactory) {
-        this(new AuthenticationNameHttpServletBinder(tokenFactory, authenticationFactory));
+    public <T> StatelessAuthenticationFilter(
+        TokenFactory<T> tokenFactory,
+        AuthenticationConverter<T> authenticationConverter
+    ) {
+        this(
+            new AuthenticationHttpServletBinder<>(tokenFactory, authenticationConverter),
+            new StaticSecurityContextHolder()
+        );
     }
 
     public StatelessAuthenticationFilter(HttpServletBinder<Authentication> httpServletBinder) {

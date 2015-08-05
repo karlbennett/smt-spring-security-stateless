@@ -21,10 +21,9 @@ import org.springframework.security.core.Authentication;
 /**
  * @author Karl Bennett
  */
-public class AuthenticatedAuthenticationFactory implements AuthenticationFactory<String> {
+public interface AuthenticationConverter<T> {
 
-    @Override
-    public Authentication create(String subject) {
-        return new AuthenticatedAuthentication(subject);
-    }
+    T convert(Authentication authentication);
+
+    Authentication convert(T principal);
 }
