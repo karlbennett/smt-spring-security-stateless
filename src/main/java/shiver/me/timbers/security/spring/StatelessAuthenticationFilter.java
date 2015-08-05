@@ -56,10 +56,7 @@ public class StatelessAuthenticationFilter extends GenericFilterBean {
         TokenFactory<T> tokenFactory,
         AuthenticationConverter<T> authenticationConverter
     ) {
-        this(
-            new AuthenticationHttpServletBinder<>(tokenFactory, authenticationConverter),
-            new StaticSecurityContextHolder()
-        );
+        this(new AuthenticationHttpServletBinder<>(tokenFactory, authenticationConverter));
     }
 
     public StatelessAuthenticationFilter(HttpServletBinder<Authentication> httpServletBinder) {
