@@ -20,34 +20,38 @@ import javax.servlet.http.Cookie;
 
 public class EqualCookie extends Cookie {
 
-    private final String name;
-    private final String value;
-
-    public EqualCookie(String name, String value) {
+    public EqualCookie(String name, String value, String path) {
         super(name, value);
-        this.name = name;
-        this.value = value;
+        setPath(path);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Cookie)) {
+            return false;
+        }
 
-        if (this == o) return true;
-        if (!(o instanceof Cookie)) return false;
+        final Cookie that = (Cookie) object;
 
-        final Cookie that = (Cookie) o;
+        if (getName() != null ? !getName().equals(that.getName()) : that.getName() != null) {
+            return false;
+        }
+        if (getValue() != null ? !getValue().equals(that.getValue()) : that.getValue() != null) {
+            return false;
+        }
 
-        if (!name.equals(that.getName())) return false;
-        if (value != null ? !value.equals(that.getValue()) : that.getValue() != null) return false;
-
-        return true;
+        return !(getPath() != null ? !getPath().equals(that.getPath()) : that.getPath() != null);
     }
 
     @Override
     public int hashCode() {
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getValue() != null ? getValue().hashCode() : 0);
+        result = 31 * result + (getPath() != null ? getPath().hashCode() : 0);
 
-        int result = name.hashCode();
-        result = 31 * result + (value != null ? value.hashCode() : 0);
         return result;
     }
 }

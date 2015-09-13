@@ -40,7 +40,9 @@ public class XAuthTokenHttpServletBinder<T> implements HttpServletBinder<T> {
         final String token = tokenFactory.create(subject);
 
         response.addHeader(X_AUTH_TOKEN, token);
-        response.addCookie(new Cookie(X_AUTH_TOKEN, token));
+        final Cookie cookie = new Cookie(X_AUTH_TOKEN, token);
+        cookie.setPath("/");
+        response.addCookie(cookie);
     }
 
     @Override

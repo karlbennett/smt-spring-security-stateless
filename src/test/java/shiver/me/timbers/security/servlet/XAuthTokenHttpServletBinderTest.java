@@ -64,7 +64,7 @@ public class XAuthTokenHttpServletBinderTest {
 
         // Then
         verify(response).addHeader(X_AUTH_TOKEN, token);
-        verify(response).addCookie(new EqualCookie(X_AUTH_TOKEN, token));
+        verify(response).addCookie(new EqualCookie(X_AUTH_TOKEN, token, "/"));
     }
 
     @Test

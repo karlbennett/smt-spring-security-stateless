@@ -16,7 +16,6 @@
 
 package shiver.me.timbers.security.servlet;
 
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import javax.servlet.http.Cookie;
@@ -31,20 +30,23 @@ public class EqualCookieTest {
     @Test
     public void Cookies_with_the_same_values_are_equal() {
 
-        // Given
         final String name = someAlphaNumericString();
         final String value = someAlphaNumericString();
+        final String path = someAlphaNumericString();
+        final EqualCookie expected = new EqualCookie(name, value, path);
+        final Cookie cookie = new Cookie(name, value);
 
-        final EqualCookie expected = new EqualCookie(name, value);
+        // Given
+        cookie.setPath(path);
 
         // When
-        final EqualCookie actual = new EqualCookie(name, value);
+        final EqualCookie actual = new EqualCookie(name, value, path);
 
         // Then
         assertThat(actual, equalTo(actual));
         assertThat(actual, equalTo(expected));
-        assertThat(actual, equalTo(new Cookie(name, value)));
-        assertThat(new EqualCookie(name, null), equalTo(new EqualCookie(name, null)));
+        assertThat(actual, equalTo(cookie));
+        assertThat(new EqualCookie(name, null, path), equalTo(new EqualCookie(name, null, path)));
 
         assertThat(actual.hashCode(), equalTo(expected.hashCode()));
     }
@@ -53,7 +55,9 @@ public class EqualCookieTest {
     public void Cookies_are_not_equal_to_other_classes() {
 
         // When
-        final EqualCookie actual = new EqualCookie(someAlphaNumericString(), someAlphaNumericString());
+        final EqualCookie actual = new EqualCookie(
+            someAlphaNumericString(), someAlphaNumericString(), someAlphaNumericString()
+        );
 
         // Then
         assertThat(actual, not(equalTo(new Object())));
@@ -63,16 +67,17 @@ public class EqualCookieTest {
     public void Cookies_with_the_different_names_are_not_equal() {
 
         // Given
-        final String value = someAlphaNumericString();
         final String name = someAlphaNumericString();
+        final String value = someAlphaNumericString();
+        final String path = someAlphaNumericString();
 
-        final EqualCookie expected = new EqualCookie(someAlphaNumericString(), value);
+        final EqualCookie expected = new EqualCookie(someAlphaNumericString(), value, path);
 
         // When
-        final EqualCookie actual = new EqualCookie(name, value);
+        final EqualCookie actual = new EqualCookie(name, value, path);
 
         // Then
-        assertThat(actual, Matchers.not(equalTo(expected)));
+        assertThat(actual, not(equalTo(expected)));
 
         assertThat(actual.hashCode(), not(equalTo(expected.hashCode())));
     }
@@ -83,18 +88,41 @@ public class EqualCookieTest {
         // Given
         final String name = someAlphaNumericString();
         final String value = someAlphaNumericString();
+        final String path = someAlphaNumericString();
 
-        final EqualCookie expected = new EqualCookie(name, someAlphaNumericString());
+        final EqualCookie expected = new EqualCookie(name, someAlphaNumericString(), path);
 
         // When
-        final EqualCookie actual = new EqualCookie(name, value);
+        final EqualCookie actual = new EqualCookie(name, value, path);
 
         // Then
-        assertThat(actual, Matchers.not(equalTo(expected)));
-        assertThat(actual, Matchers.not(equalTo(new EqualCookie(name, null))));
-        assertThat(new EqualCookie(name, null), Matchers.not(equalTo(actual)));
+        assertThat(actual, not(equalTo(expected)));
+        assertThat(actual, not(equalTo(new EqualCookie(name, null, path))));
+        assertThat(new EqualCookie(name, null, path), not(equalTo(actual)));
 
         assertThat(actual.hashCode(), not(equalTo(expected.hashCode())));
-        assertThat(actual.hashCode(), not(equalTo(new EqualCookie(name, null).hashCode())));
+        assertThat(actual.hashCode(), not(equalTo(new EqualCookie(name, null, path).hashCode())));
+    }
+
+    @Test
+    public void Cookies_with_the_different_paths_are_not_equal() {
+
+        // Given
+        final String name = someAlphaNumericString();
+        final String value = someAlphaNumericString();
+        final String path = someAlphaNumericString();
+
+        final EqualCookie expected = new EqualCookie(name, value, someAlphaNumericString());
+
+        // When
+        final EqualCookie actual = new EqualCookie(name, value, path);
+
+        // Then
+        assertThat(actual, not(equalTo(expected)));
+        assertThat(actual, not(equalTo(new EqualCookie(name, value, null))));
+        assertThat(new EqualCookie(name, value, null), not(equalTo(actual)));
+
+        assertThat(actual.hashCode(), not(equalTo(expected.hashCode())));
+        assertThat(actual.hashCode(), not(equalTo(new EqualCookie(name, value, null).hashCode())));
     }
 }
