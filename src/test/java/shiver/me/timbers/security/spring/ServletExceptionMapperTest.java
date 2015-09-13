@@ -36,6 +36,17 @@ public class ServletExceptionMapperTest {
     }
 
     @Test
+    public void Can_rethrow_servlet_exception() throws ServletException {
+
+        // Given
+        final ServletException exception = new ServletException();
+        expectedException.expect(is(exception));
+
+        // When
+        mapper.throwMapped(exception);
+    }
+
+    @Test
     public void Can_rethrow_runtime_exception() throws ServletException {
 
         // Given

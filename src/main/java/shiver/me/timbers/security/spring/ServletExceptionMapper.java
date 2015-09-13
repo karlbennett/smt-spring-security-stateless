@@ -9,6 +9,10 @@ public class ServletExceptionMapper implements ExceptionMapper<ServletException>
 
     @Override
     public void throwMapped(Throwable throwable) throws ServletException {
+        if (throwable instanceof ServletException) {
+            throw (ServletException) throwable;
+        }
+
         if (throwable instanceof RuntimeException) {
             throw (RuntimeException) throwable;
         }
