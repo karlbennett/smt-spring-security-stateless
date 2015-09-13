@@ -35,7 +35,7 @@ public class XAuthTokenHttpServletBinder<T> implements HttpServletBinder<T> {
     }
 
     @Override
-    public void add(HttpServletResponse response, T subject) {
+    public void add(HttpServletResponse response, T subject) throws Exception {
 
         final String token = tokenFactory.create(subject);
 
@@ -44,7 +44,7 @@ public class XAuthTokenHttpServletBinder<T> implements HttpServletBinder<T> {
     }
 
     @Override
-    public T retrieve(HttpServletRequest request) {
+    public T retrieve(HttpServletRequest request) throws Exception {
 
         final String cookieToken = findToken(request);
 

@@ -46,7 +46,7 @@ public class AuthenticationHttpServletBinderTest {
     }
 
     @Test
-    public void Can_add_an_authentication_to_a_response() {
+    public void Can_add_an_authentication_to_a_response() throws Exception {
 
         final Authentication authentication = mock(Authentication.class);
         final HttpServletResponse response = mock(HttpServletResponse.class);
@@ -64,7 +64,7 @@ public class AuthenticationHttpServletBinderTest {
     }
 
     @Test
-    public void Can_retrieve_an_authentication_from_a_request() {
+    public void Can_retrieve_an_authentication_from_a_request() throws Exception {
 
         final HttpServletRequest request = mock(HttpServletRequest.class);
         final String subject = someString();

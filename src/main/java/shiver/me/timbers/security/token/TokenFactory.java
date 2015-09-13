@@ -24,10 +24,10 @@ public interface TokenFactory<T> {
     /**
      * @return an authorised token generated from the supplied subject. Commonly the related accounts username.
      */
-    String create(T subject);
+    String create(T subject) throws Exception;
 
     /**
      * @return the subject that was used to generate this token. Commonly the related accounts username.
      */
-    T parse(String token);
+    T parse(String token) throws Exception;
 }

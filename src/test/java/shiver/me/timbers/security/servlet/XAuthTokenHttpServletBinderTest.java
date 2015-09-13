@@ -49,7 +49,7 @@ public class XAuthTokenHttpServletBinderTest {
     }
 
     @Test
-    public void Can_add_a_token_to_a_response() {
+    public void Can_add_a_token_to_a_response() throws Exception {
 
         final HttpServletResponse response = mock(HttpServletResponse.class);
 
@@ -68,7 +68,7 @@ public class XAuthTokenHttpServletBinderTest {
     }
 
     @Test
-    public void Can_retrieve_an_authentication_from_a_request_header() {
+    public void Can_retrieve_an_authentication_from_a_request_header() throws Exception {
 
         final HttpServletRequest request = mock(HttpServletRequest.class);
 
@@ -88,7 +88,7 @@ public class XAuthTokenHttpServletBinderTest {
     }
 
     @Test
-    public void Can_retrieve_an_authentication_from_a_request_cookie() {
+    public void Can_retrieve_an_authentication_from_a_request_cookie() throws Exception {
 
         final HttpServletRequest request = mock(HttpServletRequest.class);
 
@@ -111,7 +111,7 @@ public class XAuthTokenHttpServletBinderTest {
     }
 
     @Test
-    public void Return_no_authentication_if_no_token_supplied() {
+    public void Return_no_authentication_if_no_token_supplied() throws Exception {
 
         final HttpServletRequest request = mock(HttpServletRequest.class);
 
@@ -128,7 +128,7 @@ public class XAuthTokenHttpServletBinderTest {
     }
 
     @Test
-    public void Return_no_authentication_if_no_token_supplied_in_cookies() {
+    public void Return_no_authentication_if_no_token_supplied_in_cookies() throws Exception {
 
         final HttpServletRequest request = mock(HttpServletRequest.class);
 

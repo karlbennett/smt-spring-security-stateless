@@ -47,12 +47,12 @@ public class AuthenticationHttpServletBinder<T> implements HttpServletBinder<Aut
     }
 
     @Override
-    public void add(HttpServletResponse response, Authentication authentication) {
+    public void add(HttpServletResponse response, Authentication authentication) throws Exception {
         httpServletBinder.add(response, authenticationConverter.convert(authentication));
     }
 
     @Override
-    public Authentication retrieve(HttpServletRequest request) {
+    public Authentication retrieve(HttpServletRequest request) throws Exception {
         return authenticationConverter.convert(httpServletBinder.retrieve(request));
     }
 }

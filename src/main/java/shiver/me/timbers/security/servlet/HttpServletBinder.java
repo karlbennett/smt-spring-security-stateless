@@ -29,10 +29,10 @@ public interface HttpServletBinder<T> {
     /**
      * @return the value that this binder is responsible for from the supplied request.
      */
-    T retrieve(HttpServletRequest request);
+    T retrieve(HttpServletRequest request) throws Exception;
 
     /**
      * Add the supplied value to the supplied response.
      */
-    void add(HttpServletResponse response, T value);
+    void add(HttpServletResponse response, T value) throws Exception;
 }

@@ -39,6 +39,7 @@ public class StatelessAuthenticationSuccessHandler implements AuthenticationSucc
 
     private final HttpServletBinder<Authentication> httpServletBinder;
     private final SimpleUrlAuthenticationSuccessHandler delegate;
+    private final ExceptionMapper<ServletException> exceptionMapper;
 
     public StatelessAuthenticationSuccessHandler(String secret, String defaultTargetUrl) {
         this(String.class, secret, new AuthenticatedAuthenticationConverter(), defaultTargetUrl);
@@ -60,23 +61,29 @@ public class StatelessAuthenticationSuccessHandler implements AuthenticationSucc
     ) {
         this(
             new AuthenticationHttpServletBinder<>(tokenFactory, authenticationConverter),
-            new SimpleUrlAuthenticationSuccessHandler(defaultTargetUrl)
+            new SimpleUrlAuthenticationSuccessHandler(defaultTargetUrl),
+            null
         );
     }
 
     public StatelessAuthenticationSuccessHandler(
         HttpServletBinder<Authentication> httpServletBinder,
-        SimpleUrlAuthenticationSuccessHandler delegate
+        SimpleUrlAuthenticationSuccessHandler delegate,
+        ExceptionMapper<ServletException> exceptionMapper
     ) {
         this.httpServletBinder = httpServletBinder;
         this.delegate = delegate;
+        this.exceptionMapper = exceptionMapper;
     }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-
-        httpServletBinder.add(response, authentication);
+        try {
+            httpServletBinder.add(response, authentication);
+        } catch (Throwable e) {
+            exceptionMapper.throwMapped(e);
+        }
 
         delegate.onAuthenticationSuccess(request, response, authentication);
     }
