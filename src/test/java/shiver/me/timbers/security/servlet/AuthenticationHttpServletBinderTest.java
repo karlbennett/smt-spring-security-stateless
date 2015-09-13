@@ -35,7 +35,7 @@ public class AuthenticationHttpServletBinderTest {
 
     private HttpServletBinder<Object> httpServletBinder;
     private AuthenticationConverter<Object> authenticationConverter;
-    private AuthenticationHttpServletBinder binder;
+    private HttpServletBinder<Authentication> binder;
 
     @Before
     @SuppressWarnings("unchecked")
