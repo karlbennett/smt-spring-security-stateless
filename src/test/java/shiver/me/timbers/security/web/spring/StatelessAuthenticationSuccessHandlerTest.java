@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package shiver.me.timbers.security.spring;
+package shiver.me.timbers.security.web.spring;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +22,8 @@ import org.mockito.InOrder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import shiver.me.timbers.security.servlet.HttpServletBinder;
+import shiver.me.timbers.security.spring.ExceptionMapper;
+import shiver.me.timbers.security.spring.StatelessAuthenticationSuccessHandler;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

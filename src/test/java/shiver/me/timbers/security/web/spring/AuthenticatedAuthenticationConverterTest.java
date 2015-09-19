@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package shiver.me.timbers.security.spring;
+package shiver.me.timbers.security.web.spring;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.core.Authentication;
+import shiver.me.timbers.security.spring.AuthenticatedAuthentication;
+import shiver.me.timbers.security.spring.AuthenticatedAuthenticationConverter;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
