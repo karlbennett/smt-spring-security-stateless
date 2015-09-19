@@ -18,10 +18,7 @@ package shiver.me.timbers.security.spring;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.filter.GenericFilterBean;
-import shiver.me.timbers.security.servlet.AuthenticationHttpServletBinder;
 import shiver.me.timbers.security.servlet.HttpServletBinder;
-import shiver.me.timbers.security.token.JwtTokenFactory;
-import shiver.me.timbers.security.token.TokenFactory;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -40,29 +37,6 @@ public class StatelessAuthenticationFilter extends GenericFilterBean {
     private final HttpServletBinder<Authentication> httpServletBinder;
     private final SecurityContextHolder contextHolder;
     private final ExceptionMapper<ServletException> exceptionMapper;
-
-    public StatelessAuthenticationFilter(String secret) {
-        this(String.class, secret, new AuthenticatedAuthenticationConverter());
-    }
-
-    public <T> StatelessAuthenticationFilter(
-        Class<T> type,
-        String secret,
-        AuthenticationConverter<T> authenticationConverter
-    ) {
-        this(new JwtTokenFactory<>(type, secret), authenticationConverter);
-    }
-
-    public <T> StatelessAuthenticationFilter(
-        TokenFactory<T> tokenFactory,
-        AuthenticationConverter<T> authenticationConverter
-    ) {
-        this(new AuthenticationHttpServletBinder<>(tokenFactory, authenticationConverter));
-    }
-
-    public StatelessAuthenticationFilter(HttpServletBinder<Authentication> httpServletBinder) {
-        this(httpServletBinder, new StaticSecurityContextHolder(), null);
-    }
 
     public StatelessAuthenticationFilter(
         HttpServletBinder<Authentication> httpServletBinder,

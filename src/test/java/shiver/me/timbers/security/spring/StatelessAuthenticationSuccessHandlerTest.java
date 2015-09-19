@@ -30,8 +30,6 @@ import static org.mockito.BDDMockito.willThrow;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static shiver.me.timbers.data.random.RandomStrings.someAlphaString;
-import static shiver.me.timbers.data.random.RandomStrings.someString;
 
 public class StatelessAuthenticationSuccessHandlerTest {
 
@@ -47,11 +45,6 @@ public class StatelessAuthenticationSuccessHandlerTest {
         delegate = mock(SimpleUrlAuthenticationSuccessHandler.class);
         exceptionMapper = mock(ExceptionMapper.class);
         handler = new StatelessAuthenticationSuccessHandler(httpServletBinder, delegate, exceptionMapper);
-    }
-
-    @Test
-    public void Can_create_a_stateless_authentication_success_handler_with_just_a_secret() {
-        new StatelessAuthenticationSuccessHandler(someString(), "/" + someAlphaString());
     }
 
     @Test

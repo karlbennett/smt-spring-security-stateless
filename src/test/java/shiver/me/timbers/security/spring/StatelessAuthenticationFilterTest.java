@@ -35,7 +35,6 @@ import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
-import static shiver.me.timbers.data.random.RandomStrings.someString;
 
 public class StatelessAuthenticationFilterTest {
 
@@ -54,11 +53,6 @@ public class StatelessAuthenticationFilterTest {
         contextHolder = mock(SecurityContextHolder.class);
         exceptionMapper = mock(ExceptionMapper.class);
         filter = new StatelessAuthenticationFilter(httpServletBinder, contextHolder, exceptionMapper);
-    }
-
-    @Test
-    public void Can_create_a_stateless_authentication_filter_with_just_a_secret() {
-        new StatelessAuthenticationFilter(someString());
     }
 
     @Test

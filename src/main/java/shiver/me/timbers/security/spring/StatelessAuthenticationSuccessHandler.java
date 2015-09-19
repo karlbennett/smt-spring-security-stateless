@@ -19,10 +19,7 @@ package shiver.me.timbers.security.spring;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import shiver.me.timbers.security.servlet.AuthenticationHttpServletBinder;
 import shiver.me.timbers.security.servlet.HttpServletBinder;
-import shiver.me.timbers.security.token.JwtTokenFactory;
-import shiver.me.timbers.security.token.TokenFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -40,31 +37,6 @@ public class StatelessAuthenticationSuccessHandler implements AuthenticationSucc
     private final HttpServletBinder<Authentication> httpServletBinder;
     private final SimpleUrlAuthenticationSuccessHandler delegate;
     private final ExceptionMapper<ServletException> exceptionMapper;
-
-    public StatelessAuthenticationSuccessHandler(String secret, String defaultTargetUrl) {
-        this(String.class, secret, new AuthenticatedAuthenticationConverter(), defaultTargetUrl);
-    }
-
-    public <T> StatelessAuthenticationSuccessHandler(
-        Class<T> type,
-        String secret,
-        AuthenticationConverter<T> authenticationConverter,
-        String defaultTargetUrl
-    ) {
-        this(new JwtTokenFactory<>(type, secret), authenticationConverter, defaultTargetUrl);
-    }
-
-    public <T> StatelessAuthenticationSuccessHandler(
-        TokenFactory<T> tokenFactory,
-        AuthenticationConverter<T> authenticationConverter,
-        String defaultTargetUrl
-    ) {
-        this(
-            new AuthenticationHttpServletBinder<>(tokenFactory, authenticationConverter),
-            new SimpleUrlAuthenticationSuccessHandler(defaultTargetUrl),
-            null
-        );
-    }
 
     public StatelessAuthenticationSuccessHandler(
         HttpServletBinder<Authentication> httpServletBinder,

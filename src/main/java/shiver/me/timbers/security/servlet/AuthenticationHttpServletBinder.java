@@ -18,7 +18,6 @@ package shiver.me.timbers.security.servlet;
 
 import org.springframework.security.core.Authentication;
 import shiver.me.timbers.security.spring.AuthenticationConverter;
-import shiver.me.timbers.security.token.TokenFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,13 +29,6 @@ public class AuthenticationHttpServletBinder<T> implements HttpServletBinder<Aut
 
     private final HttpServletBinder<T> httpServletBinder;
     private final AuthenticationConverter<T> authenticationConverter;
-
-    public AuthenticationHttpServletBinder(
-        TokenFactory<T> tokenFactory,
-        AuthenticationConverter<T> authenticationConverter
-    ) {
-        this(new XAuthTokenHttpServletBinder<>(tokenFactory), authenticationConverter);
-    }
 
     public AuthenticationHttpServletBinder(
         HttpServletBinder<T> httpServletBinder,
