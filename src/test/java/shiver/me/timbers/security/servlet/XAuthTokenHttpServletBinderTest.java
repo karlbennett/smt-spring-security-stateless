@@ -18,7 +18,7 @@ package shiver.me.timbers.security.servlet;
 
 import org.junit.Before;
 import org.junit.Test;
-import shiver.me.timbers.security.token.TokenFactory;
+import shiver.me.timbers.security.token.TokenParser;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -39,16 +39,16 @@ public class XAuthTokenHttpServletBinderTest {
 
     private static final String X_AUTH_TOKEN = "X-AUTH-TOKEN";
 
-    private TokenFactory<Object> tokenFactory;
+    private TokenParser<Object> tokenParser;
     private XAuthTokenHttpServletBinder<Object> binder;
     private Object token;
 
     @Before
     @SuppressWarnings("unchecked")
     public void setUp() {
-        tokenFactory = mock(TokenFactory.class);
+        tokenParser = mock(TokenParser.class);
         token = new Object();
-        binder = new XAuthTokenHttpServletBinder<>(tokenFactory);
+        binder = new XAuthTokenHttpServletBinder<>(tokenParser);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class XAuthTokenHttpServletBinderTest {
         final String tokenString = someString();
 
         // Given
-        given(tokenFactory.create(token)).willReturn(tokenString);
+        given(tokenParser.create(token)).willReturn(tokenString);
 
         // When
         binder.add(response, token);
@@ -78,7 +78,7 @@ public class XAuthTokenHttpServletBinderTest {
         final String tokenString = someString();
 
         // Given
-        given(tokenFactory.create(token)).willReturn(tokenString);
+        given(tokenParser.create(token)).willReturn(tokenString);
 
         // When
         binder.withCookiePath(path);
@@ -100,7 +100,7 @@ public class XAuthTokenHttpServletBinderTest {
         // Given
         given(request.getHeader(X_AUTH_TOKEN)).willReturn(token);
         given(request.getCookies()).willReturn(null);
-        given(tokenFactory.parse(token)).willReturn(expected);
+        given(tokenParser.parse(token)).willReturn(expected);
 
         // When
         final Object actual = binder.retrieve(request);
@@ -123,7 +123,7 @@ public class XAuthTokenHttpServletBinderTest {
             new Cookie(someAlphaString(), someAlphaString()),
             new Cookie(X_AUTH_TOKEN, token)
         });
-        given(tokenFactory.parse(token)).willReturn(expected);
+        given(tokenParser.parse(token)).willReturn(expected);
 
         // When
         final Object actual = binder.retrieve(request);
@@ -146,7 +146,7 @@ public class XAuthTokenHttpServletBinderTest {
 
         // Then
         assertThat(actual, nullValue());
-        verifyZeroInteractions(tokenFactory);
+        verifyZeroInteractions(tokenParser);
     }
 
     @Test
@@ -163,6 +163,6 @@ public class XAuthTokenHttpServletBinderTest {
 
         // Then
         assertThat(actual, nullValue());
-        verifyZeroInteractions(tokenFactory);
+        verifyZeroInteractions(tokenParser);
     }
 }

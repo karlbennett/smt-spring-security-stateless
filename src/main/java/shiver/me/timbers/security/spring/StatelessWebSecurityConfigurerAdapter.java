@@ -24,8 +24,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import shiver.me.timbers.security.servlet.AuthenticationHttpServletBinder;
 import shiver.me.timbers.security.servlet.XAuthTokenHttpServletBinder;
-import shiver.me.timbers.security.token.JwtTokenFactory;
-import shiver.me.timbers.security.token.TokenFactory;
+import shiver.me.timbers.security.token.JwtTokenParser;
+import shiver.me.timbers.security.token.TokenParser;
 
 import javax.servlet.ServletException;
 
@@ -43,22 +43,22 @@ public class StatelessWebSecurityConfigurerAdapter<T> extends WebSecurityConfigu
     @Value("${spring.stateless.security.secret}")
     private String secret;
 
-    private boolean customTokenFactory = true;
+    private boolean customTokenParser = true;
     private boolean customXAuthTokenHttpServletBinder = true;
 
     @Override
     protected final void configure(HttpSecurity http) throws Exception {
 
-        final TokenFactory<T> tokenFactory = tokenFactory(secret);
-        final XAuthTokenHttpServletBinder<T> xAuthTokenHttpServletBinder = xAuthTokenHttpServletBinder(tokenFactory);
+        final TokenParser<T> tokenParser = tokenParser(secret);
+        final XAuthTokenHttpServletBinder<T> xAuthTokenHttpServletBinder = xAuthTokenHttpServletBinder(tokenParser);
         final AuthenticationHttpServletBinder<T> authenticationHttpServletBinder = authenticationHttpServletBinder(
             xAuthTokenHttpServletBinder,
             authenticationConverter()
         );
         final ExceptionMapper<ServletException> exceptionMapper = servletExceptionExceptionMapper();
 
-        if (!customTokenFactory) {
-            configure((JwtTokenFactory) tokenFactory);
+        if (!customTokenParser) {
+            configure((JwtTokenParser) tokenParser);
         }
         if (!customXAuthTokenHttpServletBinder) {
             configure(xAuthTokenHttpServletBinder);
@@ -136,19 +136,19 @@ public class StatelessWebSecurityConfigurerAdapter<T> extends WebSecurityConfigu
     /**
      * Developers should override this method when changing the instance of {@link XAuthTokenHttpServletBinder}.
      */
-    protected XAuthTokenHttpServletBinder<T> xAuthTokenHttpServletBinder(TokenFactory<T> tokenFactory) {
+    protected XAuthTokenHttpServletBinder<T> xAuthTokenHttpServletBinder(TokenParser<T> tokenParser) {
         customXAuthTokenHttpServletBinder = false;
-        return new XAuthTokenHttpServletBinder<>(tokenFactory);
+        return new XAuthTokenHttpServletBinder<>(tokenParser);
     }
 
     /**
-     * Developers should override this method when changing the instance of {@link TokenFactory}.
-     * The default instance is {@link JwtTokenFactory}.
+     * Developers should override this method when changing the instance of {@link TokenParser}.
+     * The default instance is {@link JwtTokenParser}.
      */
     @SuppressWarnings("unchecked")
-    protected TokenFactory<T> tokenFactory(String secret) {
-        customTokenFactory = false;
-        return (TokenFactory<T>) new JwtTokenFactory<>(String.class, secret);
+    protected TokenParser<T> tokenParser(String secret) {
+        customTokenParser = false;
+        return (TokenParser<T>) new JwtTokenParser<>(String.class, secret);
     }
 
     /**
@@ -184,9 +184,9 @@ public class StatelessWebSecurityConfigurerAdapter<T> extends WebSecurityConfigu
     }
 
     /**
-     * Override this method to configure the default {@link JwtTokenFactory} instance.
+     * Override this method to configure the default {@link JwtTokenParser} instance.
      */
-    protected void configure(JwtTokenFactory tokenFactory) {
+    protected void configure(JwtTokenParser tokenParser) {
     }
 
     /**

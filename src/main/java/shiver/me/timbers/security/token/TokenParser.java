@@ -19,15 +19,17 @@ package shiver.me.timbers.security.token;
 /**
  * @author Karl Bennett
  */
-public interface TokenFactory<T> {
+public interface TokenParser<T> {
 
     /**
-     * @return an authorised token generated from the supplied subject. Commonly the related accounts username.
+     * @return an authorised token generated from the supplied entity. Commonly the related accounts username or an
+     * object that contains a subset of the users details. The token is encrypted, but confidential information should
+     * never be stored within the token.
      */
-    String create(T subject) throws Exception;
+    String create(T entity) throws Exception;
 
     /**
-     * @return the subject that was used to generate this token. Commonly the related accounts username.
+     * @return the payload that was used to generate this token.
      */
     T parse(String token) throws Exception;
 }

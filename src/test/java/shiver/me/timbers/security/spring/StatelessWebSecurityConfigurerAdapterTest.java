@@ -6,8 +6,8 @@ import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import shiver.me.timbers.security.servlet.XAuthTokenHttpServletBinder;
-import shiver.me.timbers.security.token.JwtTokenFactory;
-import shiver.me.timbers.security.token.TokenFactory;
+import shiver.me.timbers.security.token.JwtTokenParser;
+import shiver.me.timbers.security.token.TokenParser;
 
 import java.util.HashMap;
 
@@ -36,7 +36,7 @@ public class StatelessWebSecurityConfigurerAdapterTest {
     }
 
     @Test
-    public void Can_configure_the_token_factory() throws Exception {
+    public void Can_configure_the_token_parser() throws Exception {
 
         // Given
         final boolean[] configured = {false};
@@ -44,7 +44,7 @@ public class StatelessWebSecurityConfigurerAdapterTest {
         // When
         new StatelessWebSecurityConfigurerAdapter() {
             @Override
-            protected void configure(JwtTokenFactory tokenFactory) {
+            protected void configure(JwtTokenParser tokenParser) {
                 configured[0] = true;
             }
         }.configure(http);
@@ -54,7 +54,7 @@ public class StatelessWebSecurityConfigurerAdapterTest {
     }
 
     @Test
-    public void Cannot_configure_the_token_factory_if_a_custom_version_has_been_provided() throws Exception {
+    public void Cannot_configure_the_token_parser_if_a_custom_version_has_been_provided() throws Exception {
 
         // Given
         final boolean[] configured = {false};
@@ -62,12 +62,12 @@ public class StatelessWebSecurityConfigurerAdapterTest {
         // When
         new StatelessWebSecurityConfigurerAdapter() {
             @Override
-            protected TokenFactory tokenFactory(String secret) {
-                return mock(TokenFactory.class);
+            protected TokenParser tokenParser(String secret) {
+                return mock(TokenParser.class);
             }
 
             @Override
-            protected void configure(JwtTokenFactory tokenFactory) {
+            protected void configure(JwtTokenParser tokenParser) {
                 configured[0] = true;
             }
         }.configure(http);
@@ -104,7 +104,7 @@ public class StatelessWebSecurityConfigurerAdapterTest {
         // When
         new StatelessWebSecurityConfigurerAdapter() {
             @Override
-            protected XAuthTokenHttpServletBinder xAuthTokenHttpServletBinder(TokenFactory tokenFactory) {
+            protected XAuthTokenHttpServletBinder xAuthTokenHttpServletBinder(TokenParser tokenParser) {
                 return mock(XAuthTokenHttpServletBinder.class);
             }
 
@@ -119,7 +119,7 @@ public class StatelessWebSecurityConfigurerAdapterTest {
     }
 
     @Test
-    public void Can_further_configure_the_thhp_security() throws Exception {
+    public void Can_further_configure_the_http_security() throws Exception {
 
         // Given
         final boolean[] configured = {false};

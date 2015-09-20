@@ -16,7 +16,7 @@
 
 package shiver.me.timbers.security.servlet;
 
-import shiver.me.timbers.security.token.TokenFactory;
+import shiver.me.timbers.security.token.TokenParser;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -28,17 +28,17 @@ import javax.servlet.http.HttpServletResponse;
 public class XAuthTokenHttpServletBinder<T> implements HttpServletBinder<T> {
 
     private static final String X_AUTH_TOKEN = "X-AUTH-TOKEN";
-    private final TokenFactory<T> tokenFactory;
+    private final TokenParser<T> tokenParser;
     private String path = "/";
 
-    public XAuthTokenHttpServletBinder(TokenFactory<T> tokenFactory) {
-        this.tokenFactory = tokenFactory;
+    public XAuthTokenHttpServletBinder(TokenParser<T> tokenParser) {
+        this.tokenParser = tokenParser;
     }
 
     @Override
     public void add(HttpServletResponse response, T subject) throws Exception {
 
-        final String token = tokenFactory.create(subject);
+        final String token = tokenParser.create(subject);
 
         response.addHeader(X_AUTH_TOKEN, token);
         final Cookie cookie = new Cookie(X_AUTH_TOKEN, token);
@@ -52,7 +52,7 @@ public class XAuthTokenHttpServletBinder<T> implements HttpServletBinder<T> {
         final String cookieToken = findToken(request);
 
         if (cookieToken != null) {
-            return tokenFactory.parse(cookieToken);
+            return tokenParser.parse(cookieToken);
         }
 
         return null;
