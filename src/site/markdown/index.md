@@ -23,7 +23,7 @@ The purpose of this library is to provide a simple way of configuring Spring Sec
     <dependency>
         <groupId>com.github.shiver-me-timbers</groupId>
         <artifactId>smt-spring-security-stateless</artifactId>
-        <version>1.2</version>
+        <version>2.0</version>
     </dependency>
 </dependencies>
 ```
