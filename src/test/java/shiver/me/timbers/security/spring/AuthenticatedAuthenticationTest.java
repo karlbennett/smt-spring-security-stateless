@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package shiver.me.timbers.security.web.spring;
+package shiver.me.timbers.security.spring;
 
 import org.junit.Test;
-import shiver.me.timbers.security.spring.AuthenticatedAuthentication;
 
 import javax.security.auth.Subject;
 

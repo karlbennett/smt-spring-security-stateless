@@ -1,10 +1,9 @@
-package shiver.me.timbers.security.web.spring;
+package shiver.me.timbers.security.spring;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import shiver.me.timbers.security.spring.ServletExceptionMapper;
 
 import javax.servlet.ServletException;
 

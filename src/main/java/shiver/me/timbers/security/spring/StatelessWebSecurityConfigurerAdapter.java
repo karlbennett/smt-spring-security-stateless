@@ -51,20 +51,11 @@ public class StatelessWebSecurityConfigurerAdapter<T> extends WebSecurityConfigu
 
         final TokenFactory<T> tokenFactory = tokenFactory(secret);
         final XAuthTokenHttpServletBinder<T> xAuthTokenHttpServletBinder = xAuthTokenHttpServletBinder(tokenFactory);
-        final AuthenticationConverter<T> authenticationConverter = authenticationConverter();
         final AuthenticationHttpServletBinder<T> authenticationHttpServletBinder = authenticationHttpServletBinder(
             xAuthTokenHttpServletBinder,
-            authenticationConverter
+            authenticationConverter()
         );
         final ExceptionMapper<ServletException> exceptionMapper = servletExceptionExceptionMapper();
-        final StatelessAuthenticationSuccessHandler statelessAuthenticationSuccessHandler =
-            statelessAuthenticationSuccessHandler(
-                authenticationHttpServletBinder,
-                simpleUrlAuthenticationSuccessHandler(defaultSuccessUrl()),
-                exceptionMapper
-            );
-        final StatelessAuthenticationFilter statelessAuthenticationFilter =
-            statelessAuthenticationFilter(authenticationHttpServletBinder, exceptionMapper);
 
         if (!customTokenFactory) {
             configure((JwtTokenFactory) tokenFactory);
@@ -72,6 +63,17 @@ public class StatelessWebSecurityConfigurerAdapter<T> extends WebSecurityConfigu
         if (!customXAuthTokenHttpServletBinder) {
             configure(xAuthTokenHttpServletBinder);
         }
+
+        final StatelessAuthenticationSuccessHandler statelessAuthenticationSuccessHandler =
+            statelessAuthenticationSuccessHandler(
+                authenticationHttpServletBinder,
+                simpleUrlAuthenticationSuccessHandler(defaultSuccessUrl()),
+                exceptionMapper
+            );
+        final StatelessAuthenticationFilter statelessAuthenticationFilter = statelessAuthenticationFilter(
+            authenticationHttpServletBinder,
+            exceptionMapper
+        );
 
         // Make Spring Security stateless. This means no session will be created by Spring Security, nor will it use any
         // previously existing session.
