@@ -31,6 +31,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
+import static shiver.me.timbers.data.random.RandomStrings.someAlphaNumericString;
 import static shiver.me.timbers.data.random.RandomStrings.someAlphaString;
 import static shiver.me.timbers.data.random.RandomStrings.someString;
 
@@ -40,11 +41,13 @@ public class XAuthTokenHttpServletBinderTest {
 
     private TokenFactory<Object> tokenFactory;
     private XAuthTokenHttpServletBinder<Object> binder;
+    private Object token;
 
     @Before
     @SuppressWarnings("unchecked")
     public void setUp() {
         tokenFactory = mock(TokenFactory.class);
+        token = new Object();
         binder = new XAuthTokenHttpServletBinder<>(tokenFactory);
     }
 
@@ -53,26 +56,45 @@ public class XAuthTokenHttpServletBinderTest {
 
         final HttpServletResponse response = mock(HttpServletResponse.class);
 
-        final Object subject = new Object();
-        final String token = someString();
+        final String tokenString = someString();
 
         // Given
-        given(tokenFactory.create(subject)).willReturn(token);
+        given(tokenFactory.create(token)).willReturn(tokenString);
 
         // When
-        binder.add(response, subject);
+        binder.add(response, token);
 
         // Then
-        verify(response).addHeader(X_AUTH_TOKEN, token);
-        verify(response).addCookie(new EqualCookie(X_AUTH_TOKEN, token, "/"));
+        verify(response).addHeader(X_AUTH_TOKEN, tokenString);
+        verify(response).addCookie(new EqualCookie(X_AUTH_TOKEN, tokenString, "/"));
+    }
+
+    @Test
+    public void Can_configure_the_cookies_path() throws Exception {
+
+        final String path = someAlphaNumericString();
+        final HttpServletResponse response = mock(HttpServletResponse.class);
+
+        final String tokenString = someString();
+
+        // Given
+        given(tokenFactory.create(token)).willReturn(tokenString);
+
+        // When
+        binder.withCookiePath(path);
+        binder.add(response, token);
+
+        // Then
+        verify(response).addHeader(X_AUTH_TOKEN, tokenString);
+        verify(response).addCookie(new EqualCookie(X_AUTH_TOKEN, tokenString, path));
     }
 
     @Test
     public void Can_retrieve_an_authentication_from_a_request_header() throws Exception {
 
         final HttpServletRequest request = mock(HttpServletRequest.class);
-
         final String token = someString();
+
         final Object expected = new Object();
 
         // Given
@@ -91,8 +113,8 @@ public class XAuthTokenHttpServletBinderTest {
     public void Can_retrieve_an_authentication_from_a_request_cookie() throws Exception {
 
         final HttpServletRequest request = mock(HttpServletRequest.class);
-
         final String token = someString();
+
         final Object expected = new Object();
 
         // Given

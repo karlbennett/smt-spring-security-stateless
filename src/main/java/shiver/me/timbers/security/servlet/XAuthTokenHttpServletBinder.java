@@ -29,6 +29,7 @@ public class XAuthTokenHttpServletBinder<T> implements HttpServletBinder<T> {
 
     private static final String X_AUTH_TOKEN = "X-AUTH-TOKEN";
     private final TokenFactory<T> tokenFactory;
+    private String path = "/";
 
     public XAuthTokenHttpServletBinder(TokenFactory<T> tokenFactory) {
         this.tokenFactory = tokenFactory;
@@ -41,7 +42,7 @@ public class XAuthTokenHttpServletBinder<T> implements HttpServletBinder<T> {
 
         response.addHeader(X_AUTH_TOKEN, token);
         final Cookie cookie = new Cookie(X_AUTH_TOKEN, token);
-        cookie.setPath("/");
+        cookie.setPath(path);
         response.addCookie(cookie);
     }
 
@@ -55,6 +56,11 @@ public class XAuthTokenHttpServletBinder<T> implements HttpServletBinder<T> {
         }
 
         return null;
+    }
+
+    public XAuthTokenHttpServletBinder<T> withCookiePath(String path) {
+        this.path = path;
+        return this;
     }
 
     private static String findToken(HttpServletRequest request) {
